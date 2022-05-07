@@ -5,6 +5,7 @@ import { CurrentItemState } from "../atoms/CurrentItemAtom";
 import gsap from "gsap";
 import "../App.css";
 import TypeTransition from "./TypeTransition";
+import { preloadImages } from "../utils/preload";
 
 function ArticlePage() {
   const [currentItem, setCurrentItem] = useRecoilState(CurrentItemState);
@@ -18,6 +19,10 @@ function ArticlePage() {
   const imgRef = useRef();
   const [transition, setTransition] = useState(false);
   useEffect(() => {
+    // preload images then remove loader (loading class)
+    preloadImages(".item__img, .article__img").then(() =>
+      document.body.classList.remove("loading")
+    );
     setCurrentItem(
       window.location.pathname.replace("/articles", "").replace("/", "")
     );
